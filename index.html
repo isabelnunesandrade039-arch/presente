@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parabéns, Dra. Maria Manuel Mário Andrade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--noite:#07030a;--mag:#ff3d8b;--rosa:#f7a8bd;--vinho:#8d1230;--rr:#d6455d;--ouro:#f6c35b;--tinta:#4a1020;--linha:#f0c3cf;
+--script:'Parisienne',cursive;--sans:'Quicksand',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--noite);color:#fff;font-family:var(--sans);overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--ouro);outline-offset:3px}
+#cena{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+
+/* ---------- Entrada ---------- */
+#intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 50% 0,#3a0a24,#07030a 70%);transition:opacity 1s}
+#intro.sai{opacity:0;pointer-events:none}
+.vidro{width:min(420px,100%);padding:30px 26px 30px;text-align:center;border-radius:22px;background:linear-gradient(160deg,rgba(255,61,139,.16),rgba(20,4,12,.88));border:1px solid rgba(255,140,180,.35);box-shadow:0 0 60px rgba(255,61,139,.25)}
+.ecg{height:60px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent);mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
+.ecg svg{display:block;width:200%;height:100%;animation:correr 3s linear infinite}
+@keyframes correr{to{transform:translateX(-50%)}}
+.ecg path{fill:none;stroke:#ff5c93;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px #ff3d8b)}
+.vidro h1{font-family:var(--script);font-weight:400;font-size:clamp(2.5rem,10vw,3.4rem);line-height:1.05;margin:8px 0 12px}
+.vidro .nome{font-weight:600;color:var(--rosa);margin-bottom:8px}
+.vidro .sub{font-size:.95rem;color:#e9c3d0;max-width:28em;margin:0 auto 24px}
+.entrar{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:999px;background:linear-gradient(90deg,#ff7ab0,#ff3d8b);color:#2b0614;font-weight:700;box-shadow:0 0 28px rgba(255,61,139,.55);transition:transform .2s}
+.entrar:hover{transform:scale(1.05)}
+#flash{position:fixed;inset:0;z-index:9;background:#fff;opacity:0;pointer-events:none}
+
+/* ---------- HUD ---------- */
+#hud{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1.6s}
+#hud.on{opacity:1}
+.topo{position:absolute;top:calc(12px + env(safe-area-inset-top));left:0;right:0;text-align:center;padding:0 14px}
+.topo b{display:block;font-family:var(--script);font-weight:400;font-size:clamp(1.5rem,5.5vw,2.3rem);line-height:1.1;text-shadow:0 0 18px #ff3d8b}
+.topo span{display:block;margin-top:4px;font-size:.85rem;color:#f3c6d6}
+.dock{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:min(640px,94vw);pointer-events:auto}
+.dock button{padding:8px 13px;border-radius:999px;background:rgba(40,6,22,.72);border:1px solid rgba(255,140,180,.4);font-size:.82rem;backdrop-filter:blur(6px)}
+.dock button.visto{border-color:var(--ouro);color:var(--ouro)}
+.dock button.visto::after{content:' ✓'}
+.dock .surp{display:none;background:var(--rr);border-color:var(--rr);color:#fff}
+.dock .surp.pronto{display:block;animation:pulsa 1.4s infinite}
+@keyframes pulsa{50%{box-shadow:0 0 22px 4px rgba(255,61,139,.7)}}
+
+/* ---------- Cartões ---------- */
+.modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:rgba(5,0,8,.8);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .4s}
+.modal.on{opacity:1;pointer-events:auto}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:16px;transform:perspective(900px) rotateY(-70deg) scale(.7);opacity:0;transition:transform .7s cubic-bezier(.2,.9,.25,1.1),opacity .4s}
+.modal.on .wrap{transform:none;opacity:1}
+.cartao{position:relative;width:min(350px,90vw);height:min(530px,74vh);border-radius:14px;overflow:hidden;color:var(--tinta);box-shadow:0 0 0 2px rgba(255,214,224,.7),0 0 38px 10px rgba(255,90,140,.5)}
+.deco{position:absolute;inset:0;z-index:3;pointer-events:none}
+.c3 .deco,.c4 .deco{z-index:1}
+.paper{position:absolute;z-index:2;overflow-y:auto;scrollbar-width:thin}
+.ro{position:absolute;height:auto;aspect-ratio:1;filter:drop-shadow(0 3px 4px rgba(80,0,20,.4))}
+.buq{position:absolute;left:50%;bottom:6px;width:62%;transform:translateX(-50%);filter:drop-shadow(0 4px 6px rgba(80,0,20,.3))}
+.cor{position:absolute;color:var(--ouro);font-size:2.4rem;text-shadow:0 2px 3px rgba(120,60,0,.3)}
+.fechar{display:inline-flex;gap:8px;align-items:center;padding:10px 28px;border-radius:999px;background:var(--ouro);color:#4a1020;font-weight:700;box-shadow:0 0 20px rgba(246,195,91,.6)}
+
+/* 1 · papel rosa-dourado com painel de contorno (carta) */
+.c1{background:linear-gradient(160deg,#fcd9e0,#f7aebf 55%,#f08aa7)}
+.c1 .paper{inset:16px;border:2px solid rgba(141,18,48,.5);border-radius:24px;background:rgba(255,255,255,.28);padding:24px 20px 150px;text-align:center}
+/* 2 · moldura de rosas + papel branco (receita, sinais vitais) */
+.c2{background:#f9d3dc;height:min(580px,80vh)}
+.c2 .paper h2{font-size:2rem;margin-bottom:8px}
+.c2 .paper{inset:38px 30px 34px;background:#fffafa;padding:20px 18px;border-radius:4px;box-shadow:0 6px 18px rgba(80,0,20,.28)}
+/* 3 · borda padrão de rosinhas + miolo creme (abre quando) */
+.c3{background-color:#f69aa2;background-image:radial-gradient(circle,#c2193f 0 2.5px,#ff8aa3 3px 6px,transparent 6.5px),radial-gradient(circle,#c2193f 0 2.5px,#ff8aa3 3px 6px,transparent 6.5px);background-size:28px 28px;background-position:0 0,14px 14px}
+.c3 .paper{inset:26px 24px;background:#fff4ee;border-radius:8px;padding:22px 18px;box-shadow:0 0 0 4px rgba(255,255,255,.55)}
+/* 4 · rosas por todo o lado + painel branco (memórias, final) */
+.c4{background:#a3123a}
+.c4 .paper{inset:26px 22px;background:rgba(255,255,255,.96);border-radius:16px;padding:22px 18px;text-align:center}
+
+.paper h2{font-family:var(--script);font-weight:400;font-size:2.3rem;line-height:1.1;color:var(--vinho);margin-bottom:12px}
+.paper h2.forte{font-family:var(--sans);font-weight:700;font-size:2.3rem;line-height:1.05;color:var(--rr);margin-bottom:12px}
+.paper h2.forte em{display:block;font-style:normal;font-size:3rem;letter-spacing:-.01em}
+.paper p{margin-bottom:10px;font-weight:500}
+.carta-texto{font-size:1.02rem;line-height:1.65;white-space:pre-line;min-height:11em;font-weight:500}
+.assina{margin-top:10px;font-family:var(--script);font-size:1.5rem;color:var(--vinho);opacity:0;transition:opacity 1s}
+.assina.ok{opacity:1}
+.coracao-btn{margin-top:6px;font-size:1.8rem;color:var(--rr);transition:transform .2s}
+.coracao-btn:active{transform:scale(1.4)}
+.btn{position:relative;z-index:2;margin-top:14px;background:var(--rr);color:#fff;border-radius:999px;padding:10px 24px;font-weight:700}
+#carimbar{position:sticky;bottom:0;display:block;margin:12px auto 0;box-shadow:0 0 0 6px #fffafa}
+.btn:disabled{opacity:.7;cursor:default}
+
+.rx-topo{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--linha);padding-bottom:8px;margin-bottom:10px;font-size:.82rem;color:#7a3a4c}
+.rx-sinal{font-family:var(--script);font-size:2.4rem;color:var(--rr);line-height:1}
+.rx ul{list-style:none}
+.rx li{padding:5px 0 5px 18px;position:relative;border-bottom:1px dashed var(--linha);font-size:.95rem;font-weight:500}
+.rx li{font-size:.88rem}
+.rx li::before{content:'+';position:absolute;left:0;color:var(--rr);font-weight:700}
+.rx small{display:block;margin-top:10px;color:#7a3a4c}
+.rx{position:relative;padding-bottom:50px}
+.carimbo{position:absolute;right:4px;bottom:6px;border:3px solid var(--rr);color:var(--rr);border-radius:8px;padding:5px 12px;font-weight:700;font-size:1rem;line-height:1.2;text-align:center;opacity:0;transform:rotate(-12deg) scale(3);pointer-events:none}
+.carimbado .carimbo{animation:carimbar .45s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes carimbar{to{opacity:.9;transform:rotate(-12deg) scale(1)}}
+
+.env{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--linha);border-radius:12px;padding:12px 14px;margin-bottom:9px}
+.env-linha{display:flex;gap:12px;align-items:center;font-weight:700;font-size:.95rem}
+.env svg{flex:none;width:26px;height:26px;stroke:var(--rr);fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.env .aba{transform-origin:12px 6px;transition:transform .45s}
+.env.aberta .aba{transform:scaleY(-1)}
+.env-msg{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s}
+.env.aberta .env-msg{grid-template-rows:1fr}
+.env-msg>span{overflow:hidden;display:block}
+.env-msg p{margin:10px 0 2px 38px;font-size:.95rem;line-height:1.55}
+
+.foto{background:#fff;padding:10px 10px 14px;border-radius:4px;box-shadow:0 8px 22px rgba(80,0,20,.25);transform:rotate(-2deg);transition:transform .4s,opacity .4s}
+.foto.troca{transform:rotate(3deg) translateX(18px);opacity:.3}
+.foto .img{aspect-ratio:4/3.9;background:linear-gradient(135deg,#fde0e7,#f6a9bd);border-radius:2px;overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto figcaption{margin-top:10px;font-family:var(--script);font-size:1.5rem;color:var(--vinho)}
+.nav{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:16px}
+.nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--linha);background:#fff;font-size:1.1rem}
+.nav span{font-size:.9rem;color:#7a3a4c;min-width:3em;text-align:center}
+
+.vital{margin-bottom:14px}
+.vital-topo{display:flex;justify-content:space-between;font-size:.92rem;font-weight:600;margin-bottom:5px}
+.barra{height:8px;background:#fbdce3;border-radius:99px;overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:var(--vinho);border-radius:99px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.barra i.rosa{background:var(--rr)}
+
+.sobe{position:fixed;z-index:50;pointer-events:none;color:#ff4f86;text-shadow:0 0 10px #ff3d8b;animation:subir 1.6s ease-out forwards}
+@keyframes subir{to{transform:translate(var(--dx),-170px) scale(1.3) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.ecg svg{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- rosas e ramo (desenhados em SVG) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="gP" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff9db4"/><stop offset=".6" stop-color="#e03a62"/><stop offset="1" stop-color="#9d1238"/></radialGradient>
+<symbol id="rosa" viewBox="0 0 100 100">
+ <circle cx="50" cy="50" r="46" fill="url(#gP)"/>
+ <path d="M50 10c20 2 38 16 38 38 0 22-17 40-38 40S12 70 12 50c0-21 15-38 38-40z" fill="#e23d62"/>
+ <path d="M50 21c15 0 27 11 27 27s-12 30-27 30-27-13-27-30 11-27 27-27z" fill="#f0627f"/>
+ <path d="M50 31c10 0 18 8 18 18s-8 20-18 20-18-10-18-20 8-18 18-18z" fill="#c92a52"/>
+ <path d="M50 40c5 0 9 4 9 9s-4 10-9 10-10-5-10-10 5-9 10-9z" fill="#ff93ab"/>
+ <path d="M37 49c4-10 18-11 23 0M42 57c6 5 15 3 18-5M24 40c8-14 28-19 42-10" fill="none" stroke="#8d1230" stroke-width="2.2" stroke-linecap="round" opacity=".75"/>
+</symbol>
+<symbol id="buque" viewBox="0 0 200 190">
+ <path d="M100 124C60 112 28 82 26 40c38 6 66 38 74 84z" fill="#3f8f5a"/>
+ <path d="M100 124c40-12 72-42 74-84-38 6-66 38-74 84z" fill="#3f8f5a"/>
+ <path d="M100 112C86 80 90 40 100 10c10 30 14 70 0 102z" fill="#2f7a4a"/>
+ <use href="#rosa" x="31" y="56" width="58" height="58"/>
+ <use href="#rosa" x="111" y="56" width="58" height="58"/>
+ <use href="#rosa" x="65" y="18" width="70" height="70"/>
+ <use href="#rosa" x="73" y="72" width="54" height="54"/>
+ <path d="M58 118h84l-24 68H82z" fill="#fff4f6" stroke="#f0a0b4" stroke-width="2"/>
+ <path d="M100 124l-14-12 14 6 14-6z" fill="#d6455d"/><circle cx="100" cy="122" r="6" fill="#c2193f"/>
+</symbol>
+</defs></svg>
+
+<canvas id="cena" aria-hidden="true"></canvas>
+<div id="flash"></div>
+
+<section id="intro">
+  <div class="vidro">
+    <div class="ecg" aria-hidden="true"><svg viewBox="0 0 1200 100" preserveAspectRatio="none"><path id="ecgPath" d=""/></svg></div>
+    <h1>Uma galáxia de orgulho para ti</h1>
+    <p class="nome" id="nomeIntro"></p>
+    <p class="sub" id="sub"></p>
+    <button class="entrar" id="entrar">Entrar no teu universo <span aria-hidden="true">♥</span></button>
+  </div>
+</section>
+
+<div id="hud">
+  <div class="topo"><b id="nomeTopo"></b><span id="dica">Toca nos cartões que flutuam · <span id="cont">0</span> de 5 · arrasta para girar</span></div>
+  <nav class="dock" id="dock" aria-label="Cartões"></nav>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="wrap">
+    <div class="cartao" id="cartao" role="dialog" aria-modal="true"><div class="deco" id="deco"></div><div class="paper" id="conteudo"></div></div>
+    <button class="fechar" id="fechar">Fechar 🌹</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* =========================================================
+   ✏️ EDITA AQUI: é só mudar os textos e os links das fotos
+   ========================================================= */
+const C = {
+  nome: 'Maria Manuel Mário Andrade',
+  de: 'Isabel',
+  final: 'Chegaste ao fim destes cartões, mas é só o princípio da tua história como médica. Estou muito orgulhosa de ti. Parabéns, Doutora!',
+  subtitulo: 'Seis anos de livros, plantões e noites em claro. Hoje o mundo ganha mais uma médica.',
+
+  carta: `Querida prima,
+
+  Um sonho de ser uma medica. Hoje já não é um sonho: é um facto.
+
+Estou muito orgulhosa de ti, da tua coragem, da tua força e do cuidado que já tens com toda a gente.
+
+Os teus pacientes vão ter muita sorte.`,
+
+  receita: {
+    paciente: 'Dra. Maria Manuel Mário Andrade',
+    data: '13 / 11 / 2026',
+    itens: [
+      'Muita água e noites de sono (quando for possível)',
+      'Uma dose de café por cada turno',
+      'Confiança, três vezes ao dia',
+      'Rir de ti mesma quando o plantão apertar',
+    ],
+    nota: 'Uso contínuo. Sem prazo de validade.',
+  },
+
+  abre: [
+    { t: 'Abre quando estiveres cansada de estudar', m: 'Respira. Cada página que lês hoje é uma vida que vais cuidar amanhã. Descansa um pouco e volta.' },
+    { t: 'Abre quando tiveres o teu primeiro plantão', m: 'Vais ficar nervosa, e isso é normal. Mas tu estudaste para isto. Confia nas tuas mãos e na tua cabeça.' },
+    { t: 'Abre quando duvidares de ti', m: 'Lembra-te de quem és e de tudo o que já conseguiste. Se chegaste até aqui, é porque mereces estar aqui.' },
+    { t: 'Abre quando sentires saudades', m: 'Eu estou sempre aqui, a torcer por ti, mesmo quando a vida não deixa ligar.' },
+  ],
+
+  /* 🖼️ Troca estes links pelas fotos dela (ou põe os ficheiros na mesma pasta: 'fotos/1.jpg') */
+  fotos: [
+    { src: 'fotos/inicio.jpg', legenda: 'O dia em que tudo começou' },
+    { src: 'fotos/risadas.jpg', legenda: 'A nossa risada de sempre' },
+    // { src: 'https://picsum.photos/seed/prima3/600/660', legenda: 'Entre livros e cafés' },
+    { src: 'fotos/fim.jpg', legenda: 'Hoje, doutora' },
+  ],
+
+  vitais: [
+    { n: 'Coragem', v: 100 },
+    { n: 'dedicacao no sangue', v: 92 },
+    { n: 'Paciência com os pacientes', v: 98 },
+    { n: 'Horas de sono', v: 14, rosa: true },
+    { n: 'Orgulho da família', v: 100, rosa: true },
+  ],
+
+  /* frases que flutuam na galáxia */
+  frases: ['Parabéns, Doutora', 'Dra. Maria Manuel Mário Andrade', 'Orgulho da família', 'Mãos que curam', 'Seis anos de sonho', 'Hoje, doutora', 'Cuidar é a tua magia', 'Medicina é vocação', 'Parabéns, Maria Manuel', 'Com todo o carinho'],
+};
+
+/* ================== básico ================== */
+const $ = s => document.querySelector(s);
+const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rnd = (a, b) => a + Math.random() * (b - a);
+let timers = [];
+
+document.title = `Parabéns, Dra. ${C.nome}`;
+$('#nomeIntro').textContent = `Dra. ${C.nome}`;
+$('#nomeTopo').textContent = `Dra. ${C.nome}`;
+$('#sub').textContent = C.subtitulo;
+$('#ecgPath').setAttribute('d', 'M0 50 ' + 'h100 l15 -10 l15 10 h20 l12 -42 l18 80 l14 -38 h106 '.repeat(4));
+
+function coracoes(x, y, n = 7) {
+  for (let i = 0; i < n; i++) {
+    const h = document.createElement('span');
+    h.className = 'sobe'; h.textContent = '♥';
+    h.style.left = x + rnd(-20, 20) + 'px'; h.style.top = y + 'px';
+    h.style.fontSize = rnd(14, 30) + 'px';
+    h.style.setProperty('--dx', rnd(-40, 40) + 'px');
+    h.style.setProperty('--r', rnd(-20, 20) + 'deg');
+    h.style.animationDelay = i * 60 + 'ms';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 2200);
+  }
+}
+
+/* ================== cartões (HTML) ================== */
+const rosa = (x, y, s, r = 0) => `<svg class="ro" viewBox="0 0 100 100" style="left:${x}%;top:${y}%;width:${s}px;transform:translate(-50%,-50%) rotate(${r}deg)"><use href="#rosa"/></svg>`;
+const decor = {
+  c1: () => `<svg class="buq" viewBox="0 0 200 190"><use href="#buque"/></svg><span class="cor" style="left:20px;bottom:150px">♥</span><span class="cor" style="right:24px;bottom:210px;font-size:1.8rem">♥</span>`,
+  c2: () => { let h = ''; for (let i = 0; i <= 5; i++) h += rosa(i * 20, 1, rnd(46, 62), rnd(0, 360)) + rosa(i * 20, 99, rnd(46, 62), rnd(0, 360)); for (let j = 1; j < 5; j++) h += rosa(1, j * 20 + 8, rnd(40, 56), rnd(0, 360)) + rosa(99, j * 20 + 8, rnd(40, 56), rnd(0, 360)); return h; },
+  c3: () => rosa(0, 0, 70, -20) + rosa(100, 0, 60, 30) + rosa(0, 100, 64, 10) + rosa(100, 100, 74, -30),
+  c4: () => { let h = ''; for (let i = 0; i < 48; i++) h += rosa(rnd(-5, 105), rnd(-4, 104), rnd(46, 92), rnd(0, 360)); return h; },
+};
+const estilo = { carta: 'c1', receita: 'c2', abre: 'c3', memorias: 'c4', vitais: 'c2', final: 'c4' };
+
+const cartoes = {
+  carta() {
+    return {
+      html: `<h2>Para ti</h2><div class="carta-texto" id="texto"></div>
+             <div class="assina" id="assina">Com todo o carinho,<br>${C.de}</div>
+             <button class="coracao-btn" id="cora" aria-label="Enviar coração">♥</button>`,
+      init() {
+        const el = $('#texto'), fim = () => $('#assina').classList.add('ok');
+        $('#cora').onclick = e => coracoes(e.clientX, e.clientY, 9);
+        if (reduz) { el.textContent = C.carta; return fim(); }
+        let i = 0;
+        const t = setInterval(() => { el.textContent = C.carta.slice(0, ++i); if (i >= C.carta.length) { clearInterval(t); fim(); } }, 32);
+        timers.push(t);
+      }
+    };
+  },
+  receita() {
+    const r = C.receita;
+    return {
+      html: `<h2>Receita médica</h2>
+        <div class="rx" id="rx">
+          <div class="rx-topo"><span>Paciente: ${r.paciente}</span><span>${r.data}</span></div>
+          <div class="rx-sinal">Rx</div>
+          <ul>${r.itens.map(i => `<li>${i}</li>`).join('')}</ul>
+          <small>${r.nota}</small>
+          <div class="carimbo">APROVADA<br>COM LOUVOR</div>
+        </div>
+        <button class="btn" id="carimbar">Carimbar</button>`,
+      init() {
+        $('#carimbar').onclick = e => {
+          $('#rx').classList.add('carimbado');
+          const b = $('#rx').getBoundingClientRect();
+          coracoes(b.right - 60, b.bottom - 30, 8);
+          e.target.textContent = 'Carimbada ✓'; e.target.disabled = true;
+        };
+      }
+    };
+  },
+  abre() {
+    const env = `<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path class="aba" d="M3 8l9 6 9-6"/></svg>`;
+    return {
+      html: `<h2>Abre quando…</h2>` + C.abre.map(a =>
+        `<button class="env"><span class="env-linha">${env}${a.t}</span><span class="env-msg"><span><p>${a.m}</p></span></span></button>`).join(''),
+      init() {
+        document.querySelectorAll('.env').forEach(b => b.onclick = e => {
+          const ab = !b.classList.contains('aberta');
+          b.classList.toggle('aberta', ab); b.setAttribute('aria-expanded', ab);
+          if (ab) coracoes(e.clientX, e.clientY, 5);
+        });
+      }
+    };
+  },
+  memorias() {
+    return {
+      html: `<h2>Memórias</h2>
+        <figure class="foto" id="foto"><div class="img"><img id="img" alt=""></div><figcaption id="leg"></figcaption></figure>
+        <div class="nav"><button id="ant" aria-label="Anterior">‹</button><span id="pos"></span><button id="seg" aria-label="Seguinte">›</button></div>`,
+      init() {
+        let i = 0; const n = C.fotos.length;
+        const mostrar = () => {
+          const f = $('#foto'), p = C.fotos[i];
+          f.classList.add('troca');
+          setTimeout(() => {
+            $('#img').src = p.src; $('#img').alt = p.legenda;
+            $('#leg').textContent = p.legenda; $('#pos').textContent = `${i + 1} / ${n}`;
+            f.classList.remove('troca');
+          }, reduz ? 0 : 220);
+        };
+        $('#ant').onclick = () => { i = (i - 1 + n) % n; mostrar(); };
+        $('#seg').onclick = e => { i = (i + 1) % n; mostrar(); coracoes(e.clientX, e.clientY, 4); };
+        mostrar();
+      }
+    };
+  },
+  vitais() {
+    return {
+      html: `<h2>Sinais vitais</h2>` + C.vitais.map(v =>
+        `<div class="vital"><div class="vital-topo"><span>${v.n}</span><span>${v.v}%</span></div>
+         <div class="barra"><i class="${v.rosa ? 'rosa' : ''}" data-v="${v.v}"></i></div></div>`).join('') +
+        `<p style="margin-top:6px;color:#7a3a4c;font-size:.92rem">Diagnóstico: uma futura médica extraordinária.</p>`,
+      init() { setTimeout(() => document.querySelectorAll('.barra i').forEach(b => b.style.width = b.dataset.v + '%'), 250); }
+    };
+  },
+  final() {
+    return {
+      html: `<h2 class="forte">Parabéns,<em>Doutora! 🩺</em></h2><p class="carta-texto" style="min-height:0">${C.final}</p>`,
+      init() { for (let i = 0; i < 28; i++) setTimeout(() => coracoes(Math.random() * innerWidth, innerHeight - 30, 1), i * 110); }
+    };
+  },
+};
+
+/* ================== abrir / fechar ================== */
+const vistos = new Set();
+const itens = [
+  { id: 'carta', n: 'Uma carta', e: '💌' },
+  { id: 'receita', n: 'Receita médica', e: '💊' },
+  { id: 'abre', n: 'Abre quando…', e: '✉️' },
+  { id: 'memorias', n: 'Memórias', e: '📷' },
+  { id: 'vitais', n: 'Sinais vitais', e: '🩺' },
+  { id: 'final', n: 'Surpresa final', e: '🌹' },
+];
+let ultimo = null;
+
+function marcar(id) {
+  if (id === 'final' || vistos.has(id)) return;
+  vistos.add(id);
+  document.querySelector(`.dock [data-card=${id}]`).classList.add('visto');
+  const it = itens.find(i => i.id === id); it.draw && it.draw(true);
+  $('#cont').textContent = vistos.size;
+  if (vistos.size === 5) {
+    $('#dica').textContent = 'Abriste tudo! Há uma surpresa a brilhar na galáxia.';
+    $('.surp').classList.add('pronto');
+    itens[5].mesh && (itens[5].mesh.visible = true);
+  }
+}
+function abrir(id, origem) {
+  ultimo = origem || null;
+  const c = cartoes[id](), v = estilo[id];
+  marcar(id);
+  $('#cartao').className = 'cartao ' + v;
+  $('#deco').innerHTML = decor[v]();
+  $('#conteudo').innerHTML = c.html;
+  $('#conteudo').scrollTop = 0;
+  $('#modal').classList.add('on'); $('#modal').setAttribute('aria-hidden', 'false');
+  c.init && c.init();
+  $('#fechar').focus();
+}
+function fechar() {
+  timers.forEach(clearInterval); timers = [];
+  $('#modal').classList.remove('on'); $('#modal').setAttribute('aria-hidden', 'true');
+  ultimo && ultimo.focus && ultimo.focus();
+}
+$('#fechar').onclick = fechar;
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') fechar(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') fechar(); });
+
+itens.forEach(it => {
+  const b = document.createElement('button');
+  b.dataset.card = it.id; b.textContent = it.n;
+  if (it.id === 'final') { b.className = 'surp'; b.textContent = 'Há uma surpresa final'; }
+  b.onclick = e => { coracoes(e.clientX, e.clientY, 5); abrir(it.id, b); };
+  $('#dock').appendChild(b);
+});
+
+/* ================== galáxia 3D ================== */
+const cv = $('#cena');
+const R3 = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+R3.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(60, 1, .1, 700);
+function tamanho() { R3.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); }
+addEventListener('resize', tamanho); tamanho();
+
+function pontoTex() {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, '#fff'); gr.addColorStop(.35, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(c);
+}
+const DOT = pontoTex();
+const pm = (size, o = {}) => new THREE.PointsMaterial(Object.assign({ size, map: DOT, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true }, o));
+const pontos = (pos, col, mat) => {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  return new THREE.Points(g, mat);
+};
+const tmp = new THREE.Color();
+
+/* túnel de partículas (a entrada) */
+const WN = 3500, wp = new Float32Array(WN * 3), wc = new Float32Array(WN * 3);
+for (let i = 0; i < WN; i++) {
+  const a = rnd(0, 6.283), r = 1.5 + Math.pow(Math.random(), .6) * 14;
+  wp[i * 3] = Math.cos(a) * r; wp[i * 3 + 1] = Math.sin(a) * r; wp[i * 3 + 2] = -Math.random() * 260;
+  tmp.setHSL(Math.random() < .35 ? .92 : .93, 1, Math.random() < .35 ? .92 : .62); tmp.toArray(wc, i * 3);
+}
+const warp = pontos(wp, wc, pm(.6)); scene.add(warp);
+
+/* estrelas de fundo */
+const SN = 1800, sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
+for (let i = 0; i < SN; i++) {
+  const r = rnd(90, 220), a = rnd(0, 6.283), b = Math.acos(rnd(-1, 1));
+  sp[i * 3] = r * Math.sin(b) * Math.cos(a); sp[i * 3 + 1] = r * Math.cos(b); sp[i * 3 + 2] = r * Math.sin(b) * Math.sin(a);
+  tmp.setHSL(.92, .8, rnd(.6, 1)); tmp.toArray(sc, i * 3);
+}
+scene.add(pontos(sp, sc, pm(.9)));
+
+const orbit = new THREE.Group(); orbit.visible = false; scene.add(orbit);
+const gal = new THREE.Group(), anel = new THREE.Group(), heartG = new THREE.Group();
+orbit.add(gal, anel, heartG);
+
+/* espiral da galáxia */
+{
+  const GN = innerWidth < 700 ? 22000 : 42000, GR = 15, gp = new Float32Array(GN * 3), gc = new Float32Array(GN * 3);
+  const c1 = new THREE.Color('#ffe3ef'), c2 = new THREE.Color('#ff2f86'), c3 = new THREE.Color('#8a2bd0');
+  const al = () => Math.pow(Math.random(), 3) * (Math.random() < .5 ? 1 : -1);
+  for (let i = 0; i < GN; i++) {
+    const r = Math.pow(Math.random(), 1.5) * GR + .8, arm = (i % 3) / 3 * 6.2832, giro = r * .5;
+    gp[i * 3] = Math.cos(arm + giro) * r + al() * r * .35;
+    gp[i * 3 + 1] = al() * r * .06;
+    gp[i * 3 + 2] = Math.sin(arm + giro) * r + al() * r * .35;
+    tmp.copy(c1).lerp(c2, Math.min(1, r / GR * 1.6)).lerp(c3, Math.max(0, r / GR - .65)).multiplyScalar(.85); tmp.toArray(gc, i * 3);
+  }
+  gal.add(pontos(gp, gc, pm(.085)));
+  const hole = new THREE.Mesh(new THREE.CircleGeometry(.9, 40), new THREE.MeshBasicMaterial({ color: 0x000000 }));
+  hole.rotation.x = -Math.PI / 2; hole.position.y = .02;
+  const ring = new THREE.Mesh(new THREE.RingGeometry(.9, 1.35, 48), new THREE.MeshBasicMaterial({ color: 0xff5fa8, transparent: true, opacity: .75, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, depthWrite: false }));
+  ring.rotation.x = -Math.PI / 2;
+  gal.add(hole, ring);
+}
+
+/* coração de partículas por cima da galáxia */
+const heartBase = .34;
+{
+  const HN = 6500, hp = new Float32Array(HN * 3), hc = new Float32Array(HN * 3);
+  for (let i = 0; i < HN; i++) {
+    const t = rnd(0, 6.2832), edge = i < HN * .72;
+    const x = 16 * Math.pow(Math.sin(t), 3), y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+    const s = edge ? rnd(.95, 1.05) : Math.pow(Math.random(), .7) * .92;
+    hp[i * 3] = x * s + rnd(-.5, .5); hp[i * 3 + 1] = y * s + rnd(-.5, .5); hp[i * 3 + 2] = rnd(-2, 2);
+    tmp.setHSL(rnd(.9, .97), 1, edge ? rnd(.6, .85) : rnd(.5, .7)); tmp.toArray(hc, i * 3);
+  }
+  heartG.add(pontos(hp, hc, pm(.55)));
+  heartG.position.y = 9.5; heartG.scale.setScalar(0);
+}
+
+/* fio de luz que sobe do centro até ao coração */
+const KN = 1400, kp = new Float32Array(KN * 3), kc = new Float32Array(KN * 3), kv = new Float32Array(KN);
+for (let i = 0; i < KN; i++) {
+  const a = rnd(0, 6.283), r = Math.random() * .35;
+  kp[i * 3] = Math.cos(a) * r; kp[i * 3 + 1] = rnd(0, 8.5); kp[i * 3 + 2] = Math.sin(a) * r; kv[i] = rnd(1.5, 4);
+  tmp.setHSL(.93, 1, rnd(.6, .9)); tmp.toArray(kc, i * 3);
+}
+const coluna = pontos(kp, kc, pm(.13)); orbit.add(coluna);
+
+/* frases a flutuar (viram-se sempre para a câmara) */
+const planos = [];
+function texTexto(s) {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 128;
+  const g = c.getContext('2d'); let f = 62;
+  g.font = `700 ${f}px Quicksand,system-ui,sans-serif`;
+  while (g.measureText(s).width > 940) { f -= 2; g.font = `700 ${f}px Quicksand,system-ui,sans-serif`; }
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.shadowColor = '#ff2f86'; g.shadowBlur = 24; g.fillStyle = '#ffd1e3';
+  g.fillText(s, 512, 64); g.fillText(s, 512, 64);
+  return new THREE.CanvasTexture(c);
+}
+function texSimbolo(ch, cor) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d'); g.font = '84px system-ui,"Segoe UI Emoji","Apple Color Emoji",sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  if (cor) { g.fillStyle = cor; g.shadowColor = cor; g.shadowBlur = 22; }
+  g.fillText(ch, 64, 70);
+  return new THREE.CanvasTexture(c);
+}
+function texCartao(it) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 372;
+  const g = c.getContext('2d'), tex = new THREE.CanvasTexture(c);
+  it.draw = (feito) => {
+    g.clearRect(0, 0, 256, 372);
+    const gr = g.createLinearGradient(0, 0, 0, 372); gr.addColorStop(0, '#ffd9e2'); gr.addColorStop(1, '#f06a92');
+    g.fillStyle = gr; g.beginPath(); g.roundRect ? g.roundRect(6, 6, 244, 360, 22) : g.rect(6, 6, 244, 360); g.fill();
+    g.strokeStyle = 'rgba(141,18,48,.55)'; g.lineWidth = 3; g.beginPath(); g.roundRect ? g.roundRect(20, 20, 216, 332, 16) : g.rect(20, 20, 216, 332); g.stroke();
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = '96px system-ui,"Segoe UI Emoji","Apple Color Emoji",sans-serif'; g.fillStyle = '#000'; g.fillText(it.e, 128, 150);
+    g.fillStyle = '#5a0f26'; g.font = '700 28px Quicksand,system-ui,sans-serif';
+    const pal = it.n.split(' '), mid = Math.ceil(pal.length / 2), l1 = pal.slice(0, mid).join(' '), l2 = pal.slice(mid).join(' ');
+    g.fillText(l1, 128, 258); l2 && g.fillText(l2, 128, 292);
+    if (feito) { g.fillStyle = '#f6c35b'; g.font = '700 34px sans-serif'; g.fillText('✓', 128, 330); }
+    tex.needsUpdate = true;
+  };
+  it.draw(false); return tex;
+}
+
+const cartoesMesh = [], flut = [];
+function construir() {
+  C.frases.forEach((s, i) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(7.4, .92), new THREE.MeshBasicMaterial({ map: texTexto(s), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    const a = i / C.frases.length * 6.2832, r = 10 + (i % 3) * 1.8;
+    m.position.set(Math.cos(a) * r, rnd(-.6, 1.4), Math.sin(a) * r); m.userData.y0 = m.position.y;
+    anel.add(m); planos.push(m);
+  });
+  itens.forEach((it, i) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(2.1, 3.05), new THREE.MeshBasicMaterial({ map: texCartao(it), transparent: true }));
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xff4f93, transparent: true, opacity: .8, blending: THREE.AdditiveBlending, depthWrite: false }));
+    halo.scale.set(6, 7.5, 1); halo.position.z = -.1; m.add(halo);
+    const a = i / 6 * 6.2832 + .4, r = 7.4 + (i % 2) * 2.4;
+    m.position.set(Math.cos(a) * r, 2.2 + (i % 3) * 1.1, Math.sin(a) * r); m.userData = { id: it.id, y0: m.position.y, k: i };
+    it.mesh = m; if (it.id === 'final') m.visible = false;
+    anel.add(m); cartoesMesh.push(m); planos.push(m);
+  });
+  ['♥', '🌹', '🩺', '✚', '♥', '🌹', '♥', '🩺', '✚', '🌹', '♥', '🌹'].forEach((ch, i) => {
+    const cor = ch === '♥' ? '#ff3d5e' : ch === '✚' ? '#ff7aa8' : null;
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: texSimbolo(ch, cor), transparent: true, depthWrite: false }));
+    const a = rnd(0, 6.283), r = rnd(5, 13), sc = rnd(.9, 1.7);
+    s.scale.set(sc, sc, 1); s.position.set(Math.cos(a) * r, rnd(-1, 5), Math.sin(a) * r);
+    s.userData = { y0: s.position.y, k: i }; anel.add(s); flut.push(s);
+  });
+}
+const prontoFontes = Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 1500))]).then(construir);
+
+/* ---- rato / toque ---- */
+let pitch = .42, dist = innerWidth < 700 ? 36 : 27, drag = null;
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function alvo(e) {
+  ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  ray.setFromCamera(ndc, cam);
+  const h = ray.intersectObjects(cartoesMesh.filter(m => m.visible), false);
+  return h[0] ? h[0].object : null;
+}
+cv.addEventListener('pointerdown', e => { if (fase !== 'vivo') return; drag = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY }; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointermove', e => {
+  if (drag) {
+    orbit.rotation.y += (e.clientX - drag.x) * .006;
+    pitch = Math.min(1.1, Math.max(.12, pitch + (e.clientY - drag.y) * .004));
+    drag.x = e.clientX; drag.y = e.clientY;
+  } else if (fase === 'vivo') cv.style.cursor = alvo(e) ? 'pointer' : 'grab';
+});
+cv.addEventListener('pointerup', e => {
+  if (drag && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 6) {
+    const m = alvo(e); if (m) { coracoes(e.clientX, e.clientY, 6); abrir(m.userData.id, null); }
+  }
+  drag = null;
+});
+cv.addEventListener('wheel', e => { dist = Math.min(44, Math.max(16, dist + e.deltaY * .02)); }, { passive: true });
+
+/* ---- animação ---- */
+let fase = 'espera', t0 = 0;
+const clock = new THREE.Clock();
+async function entrar() {
+  if (fase !== 'espera') return;
+  await prontoFontes;
+  $('#intro').classList.add('sai');
+  fase = 'warp'; t0 = clock.getElapsedTime();
+}
+$('#entrar').onclick = entrar;
+
+function loop() {
+  requestAnimationFrame(loop);
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+  if (fase === 'espera' || fase === 'warp') {
+    const k = fase === 'warp' ? (t - t0) / (reduz ? .5 : 3.2) : 0;
+    const v = 18 + Math.pow(Math.min(k, 1), 2) * 280;
+    const a = warp.geometry.attributes.position.array;
+    for (let i = 0; i < WN; i++) { a[i * 3 + 2] += v * dt; if (a[i * 3 + 2] > 4) a[i * 3 + 2] -= 260; }
+    warp.geometry.attributes.position.needsUpdate = true;
+    cam.position.set(0, 0, 0); cam.lookAt(0, 0, -10);
+    if (fase === 'warp' && k >= 1) {
+      $('#flash').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 1600, easing: 'ease-out' });
+      warp.visible = false; orbit.visible = true; fase = 'fly'; t0 = t; $('#hud').classList.add('on');
+    }
+  } else {
+    const k = Math.min(1, (t - t0) / (reduz ? .3 : 4)), e = 1 - Math.pow(1 - k, 3);
+    if (fase === 'fly') { orbit.scale.setScalar(.15 + .85 * e); if (k >= 1) fase = 'vivo'; }
+    const beat = Math.pow(Math.max(0, Math.sin(t * 5.2)), 6) * .12;
+    heartG.scale.setScalar(heartBase * Math.max(0, (k - .4) / .6) * (1 + beat));
+    heartG.lookAt(cam.position.x, heartG.position.y, cam.position.z);
+    gal.rotation.y += dt * .08; anel.rotation.y -= dt * .05;
+    const d = dist * (1 + (fase === 'fly' ? (1 - e) * .8 : 0));
+    cam.position.set(0, Math.sin(pitch) * d, Math.cos(pitch) * d); cam.lookAt(0, 3.2, 0);
+    const ka = coluna.geometry.attributes.position.array;
+    for (let i = 0; i < KN; i++) { ka[i * 3 + 1] += kv[i] * dt; if (ka[i * 3 + 1] > 8.5) ka[i * 3 + 1] = 0; }
+    coluna.geometry.attributes.position.needsUpdate = true;
+    planos.forEach(m => { m.lookAt(cam.position); m.position.y = m.userData.y0 + (m.userData.k !== undefined ? Math.sin(t * .9 + m.userData.k) * .25 : 0); });
+    flut.forEach(s => { s.position.y = s.userData.y0 + Math.sin(t * .8 + s.userData.k * 1.7) * .5; });
+  }
+  R3.render(scene, cam);
+}
+loop();
+</script>
+</body>
+</html>
